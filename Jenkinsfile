@@ -1,22 +1,20 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.7'
-        }
-    }
+    agent any
+
     stages {
         stage('Build') {
             steps {
-                sh 'python -m venv venv'
-                sh '. venv/bin/activate'
-                sh 'pip install --user ubuntu flask'
-                sh 'python app.py &'
+                sh 'docker build -t myflaskapp .'
             }
         }
         stage('Test') {
             steps {
-                sh 'sleep 30'
-                sh 'curl http://localhost:5000'
+                sh 'docker run --rm myflaskapp python -m unittest discover -v'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker run -d -p 5000:5000 myflaskapp'
             }
         }
     }
