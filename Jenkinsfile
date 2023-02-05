@@ -9,8 +9,8 @@ pipeline {
             steps {
                 sh 'python -m venv venv'
                 sh '. venv/bin/activate'
-                sh 'pip install flask'
-                sh 'python app.py &'
+                sh 'sudo pip install flask'
+                sh 'sudo python app.py &'
             }
         }
         stage('Test') {
