@@ -10,7 +10,6 @@ pipeline {
                 sh 'python -m venv venv'
                 sh '. venv/bin/activate'
                 sh 'pip install --user ubuntu flask'
-                sh '/usr/local/bin/python -m pip install --upgrade pip'
                 sh 'python app.py &'
             }
         }
