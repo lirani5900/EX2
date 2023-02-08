@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                sh 'docker login -u liran.pesahov@nitzanim.tech -p Aa123456123456'
+                sh 'docker login -u lirani5900 -p Aa123456123456'
                 sh 'docker push myimage'
             }
         }
