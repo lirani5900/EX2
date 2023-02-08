@@ -15,7 +15,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 sh 'docker login -u lirani5900 -p Aa123456123456'
-                sh 'docker push myimage'
+                sh 'docker push lirani5900/myimage:tagname'
             }
         }
         stage('Stop and Remove Container') {
