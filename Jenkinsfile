@@ -18,13 +18,22 @@ pipeline {
                 sh 'docker push lirani5900/myimage:tagname'
             }
         }
-        stage('Stop and Remove Container') {
+        stage('Check for Running Container') {
             when {
                 changeset '**/*'
             }
             steps {
-                sh 'docker stop $(docker ps -aq --filter ancestor=myimage)'
-                sh 'docker rm $(docker ps -aq --filter ancestor=myimage)'
+                script {
+                    def runningContainer = sh script: 'docker ps -q --filter ancestor=myimage', returnStdout: true
+                    if (runningContainer.trim().length() > 0) {
+                        stage('Stop and Remove Container') {
+                            steps {
+                                sh 'docker stop $(docker ps -aq --filter ancestor=myimage)'
+                                sh 'docker rm $(docker ps -aq --filter ancestor=myimage)'
+                            }
+                        }
+                    }
+                }
             }
         }
         stage('Run Container') {
