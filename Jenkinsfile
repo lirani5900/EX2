@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t myimage .'
+                sh 'docker build -t lirani5900/myimage:tagname .'
             }
         }
         stage('Push to Docker Hub') {
