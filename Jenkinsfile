@@ -19,12 +19,18 @@ pipeline {
             }
         }
         stage('Stop and Remove Container') {
+            when {
+                changeset '**/*'
+            }
             steps {
                 sh 'docker stop $(docker ps -aq --filter ancestor=myimage)'
                 sh 'docker rm $(docker ps -aq --filter ancestor=myimage)'
             }
         }
         stage('Run Container') {
+            when {
+                changeset '**/*'
+            }
             steps {
                 sh 'docker run -p 5000:5000 myimage'
             }
