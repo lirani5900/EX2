@@ -19,9 +19,6 @@ pipeline {
             }
         }
         stage('Check for Running Container') {
-            when {
-                changeset '**/*'
-            }
             steps {
                 script {
                     def runningContainer = sh script: 'docker ps -q --filter ancestor=myimage', returnStdout: true
