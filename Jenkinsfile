@@ -37,9 +37,6 @@ pipeline {
             }
         }
         stage('Run Container') {
-            when {
-                changeset '**/*'
-            }
             steps {
                 sh 'docker run -p 5000:5000 myimage'
             }
