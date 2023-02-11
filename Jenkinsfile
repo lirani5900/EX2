@@ -12,16 +12,16 @@ pipeline {
                 sh 'docker build -t lirani5900/myimage:tagname .'
             }
         }
-        stage('Check for Running Container') {
+        stage('Stop and Remove Containers') {
             steps {
                 script {
-                    def containerId = sh(
-                        script: 'docker ps -q --filter ancestor=lirani5900/myimage:tagname',
+                    def containerIds = sh(
+                        script: 'docker ps -aq --filter ancestor=lirani5900/myimage:tagname',
                         returnStdout: true
                     ).trim()
-                    if (containerId) {
-                        sh "docker stop ${containerId}"
-                        sh "docker rm ${containerId}"
+                    if (containerIds) {
+                        sh "docker stop ${containerIds}"
+                        sh "docker rm ${containerIds}"
                     }
                 }
             }
