@@ -7,16 +7,15 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Stop and Remove Containers') {
+        stage('Stop and Remove MyImage Containers') {
             steps {
                 script {
-                    def containerIds = sh(
-                        script: 'docker ps -aq --filter ancestor=lirani5900/myimage:tagname',
-                        returnStdout: true
-                    ).trim()
-                    if (containerIds) {
-                        sh "docker stop ${containerIds}"
-                        sh "docker rm ${containerIds}"
+                    if (sh(
+                            script: 'docker ps -a --filter "ancestor=myimage" | grep -q "myimage"',
+                            returnStatus: true
+                        ) == 0) {
+                        sh 'docker stop $(docker ps -a --filter "ancestor=myimage" -q)'
+                        sh 'docker rm $(docker ps -a --filter "ancestor=myimage" -q)'
                     }
                 }
             }
