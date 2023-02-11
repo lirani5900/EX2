@@ -7,11 +7,6 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t lirani5900/myimage:tagname .'
-            }
-        }
         stage('Stop and Remove Containers') {
             steps {
                 script {
@@ -24,6 +19,11 @@ pipeline {
                         sh "docker rm ${containerIds}"
                     }
                 }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t lirani5900/myimage:tagname .'
             }
         }
         stage('Run Container') {
