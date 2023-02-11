@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Run Container') {
             steps {
-                sh 'docker run --detach -p 5000:5000 myimage'
+                sh 'docker run --detach -p 5002:5002 myimage'
             }
         }
         stage('Push to Docker Hub') {
