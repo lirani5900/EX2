@@ -21,18 +21,20 @@ pipeline {
         stage('Check for Running Container') {
             steps {
                 script {
-                    def runningContainer = sh script: 'docker ps -q --filter ancestor=myimage', returnStdout: true
-                    if (runningContainer.trim().length() > 0) {
+                    def runningContainer = sh(script: 'docker ps -q --filter ancestor=myimage', returnStdout: true).trim()
+                    if (runningContainer.length() > 0) {
                         stage('Stop and Remove Container') {
                             steps {
-                                sh 'docker stop $(docker ps -aq --filter ancestor=myimage)'
-                                sh 'docker rm $(docker ps -aq --filter ancestor=myimage)'
+                                sh 'docker stop $runningContainer'
+                                sh 'docker rm $runningContainer'
                             }
                         }
                     }
                 }
             }
         }
+
+
         stage('Run Container') {
             steps {
                 sh 'docker run -p 5000:5000 myimage'
