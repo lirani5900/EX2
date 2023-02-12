@@ -22,18 +22,18 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t lirani5900/myimage:tagname .'
+                sh 'docker build -t lirani5900/myimage:$BUILD_NUMBER .'
             }
         }
         stage('Run Container') {
             steps {
-                sh 'docker run --detach -p 5000:5000 myimage'
+                sh 'docker run --detach -p 5000:5000 myimage:$BUILD_NUMBER'
             }
         }
         stage('Push to Docker Hub') {
             steps {
                 sh 'docker login -u lirani5900 -p Aa123456123456'
-                sh 'docker push lirani5900/myimage:tagname'
+                sh 'docker push lirani5900/myimage:$BUILD_NUMBER'
             }
         }
     }
