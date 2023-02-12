@@ -14,8 +14,8 @@ pipeline {
                             script: 'docker ps -a --filter "ancestor=myimage" | grep -q "myimage"',
                             returnStatus: true
                         ) == 0) {
-                        sh 'docker stop $(docker ps -a --filter "ancestor=myimage" -q)'
-                        sh 'docker rm $(docker ps -a --filter "ancestor=myimage" -q)'
+                        sh 'docker stop $(docker ps -q --filter "publish=5000") || true'
+                        sh 'docker rm $(docker ps -q --filter "publish=5000") || true'
                     }
                 }
             }
